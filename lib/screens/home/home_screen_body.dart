@@ -3,6 +3,7 @@ import 'package:bookeapp/models/user.dart';
 import 'package:bookeapp/services/authentication.dart';
 import 'package:bookeapp/services/database.dart';
 import 'package:bookeapp/services/menu_item.dart';
+import 'package:bookeapp/widgets/CategorieContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:bookeapp/services/data.dart';
@@ -33,7 +34,8 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
       initialData: [],
       value: database.users,
       child: Scaffold(
-        backgroundColor: Color(0xff333333),
+        //backgroundColor: Color(0xff333333),
+        backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
               icon: Icon(
@@ -49,13 +51,13 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           ),
           centerTitle: true,
           actions: <Widget>[
-            IconButton(
+            /*IconButton(
               icon: Icon(
                 Icons.search,
                 color: Colors.black,
               ),
               onPressed: () {},
-            ),
+            ),*/
             PopupMenuButton<MenuItem>(
               onSelected: (item) => onSelected(context, item),
               itemBuilder: (context) => [
@@ -92,9 +94,8 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                   Row(
                     children: [
                       Text(
-                        'Continue watching',
+                        'Catégories',
                         style: TextStyle(
-                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
@@ -102,7 +103,36 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                       Icon(
                         Icons.arrow_right,
                         size: 30,
-                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                  Container(
+                    height: 200,
+                    child: ListView.builder(
+                        itemCount: categoryList.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          MovieOrSeries movieOrSeries = categoryList[index];
+                          return CategoryContainer(
+                            movieOrSeries: movieOrSeries,
+                          );
+                        }),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Continue watching',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_right,
+                        size: 30,
                       )
                     ],
                   ),
@@ -127,7 +157,6 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                       Text(
                         'My List',
                         style: TextStyle(
-                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
@@ -135,7 +164,6 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                       Icon(
                         Icons.arrow_right,
                         size: 30,
-                        color: Colors.white,
                       )
                     ],
                   ),

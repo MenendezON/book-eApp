@@ -1,11 +1,13 @@
-import 'package:bookeapp/screens/home/MovieScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:bookeapp/services/data.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class ContinueWatchingContainer extends StatelessWidget {
+class CategoryContainer extends StatelessWidget {
   final MovieOrSeries movieOrSeries;
 
-  const ContinueWatchingContainer({Key? key, required this.movieOrSeries})
+
+
+  const CategoryContainer({Key? key, required this.movieOrSeries})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -30,56 +32,35 @@ class ContinueWatchingContainer extends StatelessWidget {
               child: Container(
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Colors.white30,
+                  color: Colors.black54,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'play',
+                      '${movieOrSeries.title}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Icon(
-                      Icons.play_circle_filled,
-                      color: Colors.white,
-                    )
                   ],
                 ),
               ),
             ),
-            /*Positioned(
-              bottom: 35,
-              right: 0,
-              left: 0,
-              child: Divider(
-                color: Colors.white,
-                thickness: 4,
-              ),
-            ),
-            Positioned(
-              bottom: 35,
-              right: 40,
-              left: 0,
-              child: Divider(
-                color: Colors.red,
-                thickness: 4,
-              ),
-            )*/
           ],
         ),
       ),
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    MovieScreen(movieOrSeries: movieOrSeries)));
+        print('Catégorie : ${movieOrSeries.title}');
+        Fluttertoast.showToast(
+            msg: 'Catégorie : ${movieOrSeries.title}',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       },
     );
   }

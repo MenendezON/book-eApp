@@ -1,5 +1,16 @@
+import 'dart:io';
+
+import 'package:bookeapp/models/menu_item.dart';
+import 'package:bookeapp/services/authentication.dart';
+import 'package:bookeapp/services/menu_item.dart';
+import 'package:bookeapp/services/pdf_api.dart';
 import 'package:flutter/material.dart';
 import 'package:bookeapp/services/data.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+
+import '../readingPage.dart';
+import '../settingspage.dart';
 
 class MovieScreen extends StatefulWidget {
   final MovieOrSeries movieOrSeries;
@@ -10,12 +21,48 @@ class MovieScreen extends StatefulWidget {
 }
 
 class _MovieScreenState extends State<MovieScreen> {
-
+  final AuthenticationService _auth = AuthenticationService();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xff333333),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          title: Container(
+            height: 40,
+            child: Image.asset('assets/images/ebook_logo.png'),
+          ),
+          //centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.star_border,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Fluttertoast.showToast(
+                    msg: "This is Center Short Toast",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              },
+            ),
+            PopupMenuButton<MenuItem>(
+              onSelected: (item) => onSelected(context, item),
+              itemBuilder: (context) => [
+                ...MenuItems.itemsFirst.map(buildItem).toList(),
+                PopupMenuDivider(),
+                ...MenuItems.itemsSecond.map(buildItem).toList(),
+              ],
+              icon: Icon(Icons.more_vert, color: Colors.white),
+            ),
+          ],
+        ),
         body: Stack(
           children: [
             ListView(
@@ -33,84 +80,24 @@ class _MovieScreenState extends State<MovieScreen> {
                           )),
                     ),
                     Positioned(
-                      top: 5,
-                      left: 5,
-                      right: 5,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(
-                            Icons.menu,
-                            color: Colors.white,
-                          ),
-                          Container(
-                            height: 40,
-                            child: Image.asset('assets/images/ebook_logo.png'),
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-                    /*Positioned(
-                      bottom: 70,
-                      left: 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.movieOrSeries.title.toUpperCase(),
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                color: Colors.white54,
-                                padding: EdgeInsets.all(5),
-                                child: Text(
-                                  widget.movieOrSeries.categories[0],
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Container(
-                                color: Colors.white54,
-                                padding: EdgeInsets.all(5),
-                                child: Text(
-                                  widget.movieOrSeries.categories[1],
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),*/
-                    Positioned(
                       bottom: 0,
                       child: Container(
                         color: Colors.black45,
                         width: MediaQuery.of(context).size.width,
                         padding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Column(
                               children: [
-                                Icon(
-                                  Icons.share,
-                                  color: Colors.red,
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.share,
+                                    color: Colors.white,
+                                  ),
                                 ),
                                 Text(
                                   'Partager',
@@ -118,23 +105,23 @@ class _MovieScreenState extends State<MovieScreen> {
                                 )
                               ],
                             ),
-                            /*Column(
-                              children: [
-                                Icon(
-                                  Icons.rate_review,
-                                  color: Colors.red,
-                                ),
-                                Text(
-                                  'Rate',
-                                  style: TextStyle(color: Colors.white),
-                                )
-                              ],
-                            ),*/
+                            SizedBox(
+                              width: 75,
+                            ),
                             Column(
                               children: [
-                                Icon(
-                                  Icons.play_circle_filled,
-                                  color: Colors.red,
+                                IconButton(
+                                  onPressed: () async {
+                                    final url = 'pdf/ouvragebooke001.pdf';
+                                    final file = await PDFApi.loadFirebase(url);
+                                    final rname = widget.movieOrSeries.title;
+                                    if (file == null) return;
+                                    openPDF(context, file, rname);
+                                  },
+                                  icon: Icon(
+                                    Icons.read_more,
+                                    color: Colors.white,
+                                  ),
                                 ),
                                 Text(
                                   'Lecture',
@@ -142,11 +129,17 @@ class _MovieScreenState extends State<MovieScreen> {
                                 )
                               ],
                             ),
+                            SizedBox(
+                              width: 75,
+                            ),
                             Column(
                               children: [
-                                Icon(
-                                  Icons.file_download,
-                                  color: Colors.red,
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.file_download,
+                                    color: Colors.white,
+                                  ),
                                 ),
                                 Text(
                                   'Télécharger',
@@ -172,7 +165,7 @@ class _MovieScreenState extends State<MovieScreen> {
                         widget.movieOrSeries.title.toUpperCase(),
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 30,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
@@ -228,65 +221,12 @@ class _MovieScreenState extends State<MovieScreen> {
                       ),
                       Text(
                         widget.movieOrSeries.description,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white, height: 1.5, fontSize: 13.5),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      /*Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Divider(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Cast & Crew',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              'see All',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 100,
-                        child: ListView.builder(
-                            itemCount: widget.movieOrSeries.cast.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              String img = widget.movieOrSeries.cast[index];
-                              return Container(
-                                height: 100,
-                                width: 100,
-                                margin: const EdgeInsets.only(right: 10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: AssetImage(img),
-                                    )),
-                              );
-                            }),
-                      ),*/
                       SizedBox(
                         height: 10,
                       ),
@@ -302,8 +242,8 @@ class _MovieScreenState extends State<MovieScreen> {
                       Row(
                         children: [
                           Container(
-                            height: 120,
-                            width: 120,
+                            height: 100,
+                            width: 100,
                             margin: const EdgeInsets.only(right: 10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
@@ -319,28 +259,20 @@ class _MovieScreenState extends State<MovieScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "Texte de nom",//widget.movieOrSeries.director['name'],
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
+                                TextButton(
+                                  child: Text(
+                                    "Texte de nom", //widget.movieOrSeries.director['name'],
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                  onPressed: () {},
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  'Director',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  "Texte de détails", //widget.movieOrSeries.director['details'],
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                TextButton(
+                                  child: Text(
+                                    "Director",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  onPressed: () {},
                                 ),
                               ],
                             ),
@@ -360,28 +292,36 @@ class _MovieScreenState extends State<MovieScreen> {
               right: 20,
               left: 20,
               child: Container(
-                height: 50,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    color: Colors.black45,
+                    color: Colors.white54,
                     borderRadius: BorderRadius.circular(30)),
                 child: Padding(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Overview',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: GNav(
+                    gap: 8,
+                    activeColor: Colors.white,
+                    iconSize: 25,
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    duration: Duration(milliseconds: 800),
+                    tabBackgroundColor: Colors.black54,
+                    tabs: [
+                      GButton(
+                        icon: Icons.home,
+                        text: 'Home',
                       ),
-                      Text(
-                        'Seasons',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      GButton(
+                        icon: Icons.search,
+                        text: 'Search',
                       ),
-                      Text(
-                        'Similar',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      GButton(
+                        icon: Icons.play_circle_outline,
+                        text: 'explore',
+                      ),
+                      GButton(
+                        icon: Icons.file_download,
+                        text: 'download',
                       ),
                     ],
                   ),
@@ -393,4 +333,31 @@ class _MovieScreenState extends State<MovieScreen> {
       ),
     );
   }
+
+  PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem<MenuItem>(
+        value: item,
+        child: Row(
+          children: [
+            Icon(item.icon, color: Colors.black, size: 20),
+            SizedBox(width: 10),
+            Text(item.text),
+          ],
+        ),
+      );
+
+  onSelected(BuildContext context, MenuItem item) async {
+    switch (item) {
+      case MenuItems.itemSettings:
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => SettingsPage()));
+        break;
+      case MenuItems.itemSignOut:
+        await _auth.signOut();
+        break;
+    }
+  }
+
+  void openPDF(BuildContext context, File file, String rname) => Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => PDFViewerPage(file: file, realName: rname,)),
+      );
 }

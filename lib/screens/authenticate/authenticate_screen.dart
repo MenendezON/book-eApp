@@ -50,24 +50,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
         ? Loading()
         : Scaffold(
             backgroundColor: Colors.white,
-            /*appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
-        elevation: 0.0,
-        title: Text(showSignIn ? 'Sign in to Water Social' : 'Register to Water Social'),
-        actions: <Widget>[
-          TextButton.icon(
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-            label: Text(showSignIn ? "Register" : 'Sign In',
-                style: TextStyle(color: Colors.white)),
-            onPressed: () => toggleView(),
-          ),
-        ],
-      ),*/
             body: Container(
-              //height: MediaQuery.of(context).size.height,
               padding: EdgeInsets.only(left: 40.0, right: 40.0),
               decoration: BoxDecoration(
                 image: DecorationImage(

@@ -11,7 +11,7 @@ class MovieOrSeries {
   Map<String, String> director;
 
   MovieOrSeries({
-      required this.coverUrl,
+    required this.coverUrl,
     required this.title,
     required this.description,
     required this.categories,
@@ -21,6 +21,7 @@ class MovieOrSeries {
     required this.seasons,
     required this.cast,
     required this.director});
+
 }
 
 final List<MovieOrSeries> mainList = [
@@ -215,4 +216,52 @@ final List<MovieOrSeries> myList = [
     seasons: 0,
     cast: [], director: {},
   ),
+];
+
+final List<MovieOrSeries> categoryList = [
+  MovieOrSeries(
+    coverUrl: 'assets/images/endgame.jpg',
+    title: 'Histoire',
+    categories: [],
+    year: 0,
+    country: '',
+    length: '',
+    description:'',
+    seasons: 0,
+    cast: [], director: {},
+  ),
+  MovieOrSeries(
+    coverUrl: 'assets/images/oitnb.jpg',
+    title: 'Poésie',
+    categories: [],
+    year: 0,
+    country: '',
+    length: '',
+    description:'',
+    seasons: 0,
+    cast: [], director: {},
+  ),
+  MovieOrSeries(
+    coverUrl: 'assets/images/nutcracker.jpg',
+    title: 'Politique',
+    categories: [],
+    year: 0,
+    country: '',
+    length: '',
+    description:'',
+    seasons: 0,
+    cast: [], director: {},
+  ),
+  MovieOrSeries(
+    coverUrl: 'assets/images/erased.jpg',
+    title: 'Société',
+    categories: [],
+    year: 0,
+    country: '',
+    length: '',
+    description:'',
+    seasons: 0,
+    cast: [], director: {},
+  ),
+
 ];

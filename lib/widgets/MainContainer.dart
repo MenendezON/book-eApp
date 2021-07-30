@@ -1,7 +1,6 @@
 import 'package:bookeapp/screens/home/MovieScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:bookeapp/services/data.dart';
-//import 'package:netflixredesign/Screens/MovieScreen.dart';
 
 class MainContainer extends StatelessWidget {
   final MovieOrSeries movieOrSeries;
@@ -15,7 +14,6 @@ class MainContainer extends StatelessWidget {
         width: 300,
         margin: const EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
             image: DecorationImage(
               fit: BoxFit.fill,
               image: AssetImage(movieOrSeries.coverUrl),

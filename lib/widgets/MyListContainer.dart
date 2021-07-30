@@ -1,3 +1,4 @@
+import 'package:bookeapp/screens/home/MovieScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:bookeapp/services/data.dart';
 
@@ -13,12 +14,18 @@ class MyListContainer extends StatelessWidget {
         width: 150,
         margin: const EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
             image: DecorationImage(
               fit: BoxFit.fill,
               image: AssetImage(movieOrSeries.coverUrl),
             )),
       ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    MovieScreen(movieOrSeries: movieOrSeries)));
+      },
     );
   }
 }
