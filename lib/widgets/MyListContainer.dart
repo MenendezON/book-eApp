@@ -19,13 +19,7 @@ class MyListContainer extends StatelessWidget {
               image: AssetImage(movieOrSeries.coverUrl),
             )),
       ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    MovieScreen(movieOrSeries: movieOrSeries)));
-      },
+      onTap: () {},
     );
   }
 }

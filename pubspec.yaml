@@ -27,10 +27,14 @@ dependencies:
   flutter_spinkit: "^5.0.0"
   google_nav_bar: ^5.0.5
 
+  file_picker: "3.0.4"
+
   http: ^0.13.3
 
   path: ^1.8.0
   path_provider: ^2.0.2
+  transparent_image: ^2.0.0
+  cached_network_image: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -42,5 +46,6 @@ flutter:
 
   assets:
     - assets/images/ebook_logo.png
+    - assets/images/icon_add_image.png
     - assets/images/
 

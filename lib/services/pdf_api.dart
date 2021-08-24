@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,6 +15,7 @@ class PDFApi {
 
       return _storeFile(url,  bytes!);
     }catch(e){
+      print(e.toString());
       return null;
     }
   }
@@ -23,5 +26,32 @@ class PDFApi {
     final file = File('${dir.path}/$filename');
     await file.writeAsBytes(bytes, flush: true);
     return file;
+  }
+
+  static Future downloadFile(Reference ref) async{
+    final dir = await getApplicationDocumentsDirectory();
+    final downloadFileTo = File('${dir.path}/${ref.name}');
+    
+    await ref.writeToFile(downloadFileTo);
+  }
+
+  static UploadTask? uploadFile(String destination, File file) {
+    try{
+      final ref = FirebaseStorage.instance.ref(destination);
+      return ref.putFile(file);
+    } on FirebaseException catch (e){
+      print(e.toString());
+      return null;
+    }
+  }
+
+  static UploadTask? uploadBytes(String destination, Uint8List data) {
+    try{
+      final ref = FirebaseStorage.instance.ref(destination);
+      return ref.putData(data);
+    } on FirebaseException catch (e){
+      print(e.toString());
+      return null;
+    }
   }
 }

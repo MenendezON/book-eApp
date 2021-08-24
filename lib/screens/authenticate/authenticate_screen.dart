@@ -69,8 +69,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Image.asset(
-                          'assets/images/ebook_logo.png',
+                        Image.asset('assets/images/ebook_logo.png',
                           fit: BoxFit.fitWidth,
                         ),
                         !showSignIn
@@ -115,7 +114,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                           onPressed: () async {
                             if (_formKey.currentState?.validate() == true) {
                               setState(() => loading = true);
-                              var password = passwordController.value.text;
+                              var pwd = passwordController.value.text;
+                              var password = pwd.trim();
                               var email = emailController.value.text;
                               var name = nameController.value.text;
 
@@ -124,6 +124,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                       email, password)
                                   : await _auth.registerWithEmailAndPassword(
                                       name, email, password);
+
                               if (result == null) {
                                 setState(() {
                                   loading = false;

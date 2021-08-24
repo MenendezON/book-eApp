@@ -1,3 +1,4 @@
+import 'package:bookeapp/models/firebase_file.dart';
 import 'package:bookeapp/screens/home/MovieScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:bookeapp/services/data.dart';
@@ -74,13 +75,7 @@ class ContinueWatchingContainer extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    MovieScreen(movieOrSeries: movieOrSeries)));
-      },
+      onTap: () {},
     );
   }
 }

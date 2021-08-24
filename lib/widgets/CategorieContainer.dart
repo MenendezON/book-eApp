@@ -1,11 +1,9 @@
+import 'package:bookeapp/screens/categoryPage.dart';
 import 'package:flutter/material.dart';
 import 'package:bookeapp/services/data.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class CategoryContainer extends StatelessWidget {
   final MovieOrSeries movieOrSeries;
-
-
 
   const CategoryContainer({Key? key, required this.movieOrSeries})
       : super(key: key);
@@ -13,7 +11,17 @@ class CategoryContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        margin: const EdgeInsets.only(right: 10),
+        margin: const EdgeInsets.all(3),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.white,
+              spreadRadius: 0.1,
+              offset: Offset(0, 0),
+              blurRadius: 2,
+            )
+          ],
+        ),
         child: Stack(
           children: [
             Container(
@@ -21,9 +29,9 @@ class CategoryContainer extends StatelessWidget {
               width: 150,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage(movieOrSeries.coverUrl),
-                  )),
+                fit: BoxFit.fill,
+                image: AssetImage(movieOrSeries.coverUrl),
+              )),
             ),
             Positioned(
               bottom: 0,
@@ -53,14 +61,9 @@ class CategoryContainer extends StatelessWidget {
       ),
       onTap: () {
         print('Catégorie : ${movieOrSeries.title}');
-        Fluttertoast.showToast(
-            msg: 'Catégorie : ${movieOrSeries.title}',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                CategoryPage(titleCateg: movieOrSeries.title)));
       },
     );
   }

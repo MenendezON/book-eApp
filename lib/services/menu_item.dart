@@ -3,13 +3,19 @@ import 'package:flutter/material.dart';
 
 class MenuItems {
   static const List<MenuItem> itemsFirst = [
-    itemSettings,
+    itemProfile,
     itemShare,
+    itemSettings,
   ];
 
   static const List<MenuItem> itemsSecond = [
     itemSignOut,
   ];
+
+  static const itemProfile = MenuItem (
+    text: 'Profil',
+    icon: Icons.account_circle_rounded,
+  );
 
   static const itemSettings = MenuItem (
     text: 'Paramètres',

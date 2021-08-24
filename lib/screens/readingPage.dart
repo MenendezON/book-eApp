@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:bookeapp/models/menu_item.dart';
-import 'package:bookeapp/screens/settingspage.dart';
 import 'package:bookeapp/services/authentication.dart';
 import 'package:bookeapp/services/menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:path/path.dart';
 
 class PDFViewerPage extends StatefulWidget {
   final File file;
@@ -31,8 +29,9 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
     final rname = widget.realName;
 
     return Scaffold(
+      backgroundColor: Colors.blueGrey.shade900,
       appBar: AppBar(
-        backgroundColor: Colors.black54,
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: Text(rname),
         //centerTitle: true,
@@ -51,17 +50,26 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
           ),
         ],
       ),
-      body: PDFView(
-        filePath: widget.file.path,
-        //swipeHorizontal: true,
-        pageSnap: false,
-        autoSpacing: false,
-        pageFling: false,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            colors: [Colors.blueGrey.shade900, Colors.black],
+            center: Alignment.center,
+            radius: 3,
+          ),
+        ),
+        child: PDFView(
+          filePath: widget.file.path,
+          //swipeHorizontal: true,
+          pageSnap: false,
+          autoSpacing: false,
+          pageFling: false,
 
-        onRender: (pages) => setState(() => this.pages = pages!),
-        onViewCreated: (controller) => setState(() => this.controller = controller),
-        onPageChanged: (indexPage, _) => setState(() => this.indexPage = indexPage!),
+          onRender: (pages) => setState(() => this.pages = pages!),
+          onViewCreated: (controller) => setState(() => this.controller = controller),
+          onPageChanged: (indexPage, _) => setState(() => this.indexPage = indexPage!),
 
+        ),
       ),
     );
   }
@@ -80,8 +88,7 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
   onSelected(BuildContext context, MenuItem item) async {
     switch (item) {
       case MenuItems.itemSettings:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => SettingsPage()));
+        //Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage('', '', 0)));
         break;
       case MenuItems.itemSignOut:
         await _auth.signOut();

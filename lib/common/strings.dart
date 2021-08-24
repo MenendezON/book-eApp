@@ -7,6 +7,7 @@ class Strings{
 
   final String fieldName ='Saisissez votre nom complet';
   final String fieldPwd = 'Saisissez votre mot de passe';
+  final String fieldRePwd = 'Confirmez votre mot de passe';
   final String fieldPwdExtra = 'Saisissez un mot de passe de 6 caractères';
   final String fieldEmail = 'Saisissez votre email';
 
