@@ -1,6 +1,6 @@
 # bookeapp
 
-A new Flutter project.
+ce projet est un projet flutter.
 
 ## Getting Started
 
